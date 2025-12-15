@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { getHistory, getQuiz, deleteQuiz } from '../services/api';
 import { Loader2, ArrowRight, Calendar, Trash2, RefreshCw } from 'lucide-react';
 
@@ -118,9 +119,9 @@ const QuizHistory = ({ onRetake }) => {
                 </div>
             )}
 
-            {selectedQuiz && (
+            {selectedQuiz && createPortal(
                 <div
-                    className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+                    className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-[9999]"
                     onClick={closeModal}
                 >
                     <div
@@ -184,7 +185,8 @@ const QuizHistory = ({ onRetake }) => {
                             ))}
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </div>
     );
