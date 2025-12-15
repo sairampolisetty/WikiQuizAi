@@ -70,6 +70,23 @@ npm run dev
 
 Open [http://localhost:5173](http://localhost:5173) to view the app.
 
+## Resetting primary key IDs (if they start unexpectedly high)
+
+If you find that newly generated quiz IDs start from a number greater than 1 (for example, 6), it's usually because the database has previous inserts/deletes which advanced the auto-increment counter. To reset the counters to start from 1 you can use the included management script:
+
+```bash
+# From repo root
+python backend/reset_ids.py
+```
+
+By default the script is conservative: it will only reset tables that are empty. Use `--force` to reset sequences even when tables contain rows (only do this if you know what you're doing — it can cause primary key collisions if you reuse IDs):
+
+```bash
+python backend/reset_ids.py --force
+```
+
+The script supports SQLite, MySQL and PostgreSQL. It will detect your `DATABASE_URL` automatically from `backend/.env` (or your environment).
+
 ## Project Structure
 ```
 ai-wiki-quiz/

@@ -76,9 +76,9 @@ const QuizHistory = ({ onRetake }) => {
                         {/* ENABLE POINTER EVENTS FOR CONTENT */}
                         <div className="pointer-events-auto">
                             <div className="flex justify-between items-start mb-4">
-                                <span className="bg-blue-500/20 text-blue-300 text-xs font-mono py-1 px-2 rounded">
-                                    ID: {item.id}
-                                </span>
+                                <h3 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent line-clamp-1 group-hover:from-blue-300 group-hover:to-purple-300 transition-all">
+                                    {item.title || "Untitled Quiz"}
+                                </h3>
 
                                 <div className="flex items-center gap-2">
                                     <span className="text-slate-400 text-xs flex items-center">
@@ -96,10 +96,6 @@ const QuizHistory = ({ onRetake }) => {
                                     </button>
                                 </div>
                             </div>
-
-                            <h3 className="text-base md:text-lg font-semibold mb-2 line-clamp-1 group-hover:text-blue-400 transition-colors">
-                                {item.title || "Untitled Quiz"}
-                            </h3>
 
                             <p className="text-slate-400 text-sm mb-4 line-clamp-1">
                                 {item.url}
