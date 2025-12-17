@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { getHistory, getQuiz, deleteQuiz } from '../services/api';
-import { Loader2, ArrowRight, Calendar, Trash2, RefreshCw } from 'lucide-react';
+import { ArrowRight, Calendar, Trash2, RefreshCw } from 'lucide-react';
+import InfinityLoader from './InfinityLoader';
 
 const QuizHistory = ({ onRetake }) => {
     const [history, setHistory] = useState([]);
@@ -14,7 +15,11 @@ const QuizHistory = ({ onRetake }) => {
 
     const loadHistory = async () => {
         try {
-            const data = await getHistory();
+            // Artificial delay of 2 seconds to show the cool loader
+            const [data] = await Promise.all([
+                getHistory(),
+                new Promise(resolve => setTimeout(resolve, 2000))
+            ]);
             setHistory(data);
         } catch (err) {
             console.error("Failed to load history", err);
@@ -55,7 +60,7 @@ const QuizHistory = ({ onRetake }) => {
     if (loading) {
         return (
             <div className="flex justify-center p-12">
-                <Loader2 className="animate-spin text-blue-500 w-12 h-12" />
+                <InfinityLoader />
             </div>
         );
     }
