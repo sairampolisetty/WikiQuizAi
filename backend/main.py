@@ -8,6 +8,11 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="AI Wiki Quiz Generator")
 
+# ✅ Add this block
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
