@@ -10,7 +10,8 @@ genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 def generate_quiz(text: str) -> dict:
     models_to_try = [
-        'models/gemini-flash-latest',
+        'models/gemini-2.5-flash',
+        'models/gemini-2.0-flash',
         'models/gemini-2.5-pro',
     ]
 
@@ -50,8 +51,14 @@ def generate_quiz(text: str) -> dict:
             print(f"Attempting generation with model: {model_name}")
             model = genai.GenerativeModel(model_name)
             response = model.generate_content(prompt)
-            # Clean potential markdown formatting
-            cleaned_text = response.text.replace("```json", "").replace("```", "").strip()
+            # Find JSON block to safely extract it
+            text_response = response.text
+            if "```json" in text_response:
+                text_response = text_response.split("```json")[1].split("```")[0]
+            elif "```" in text_response:
+                text_response = text_response.split("```")[1].split("```")[0]
+                
+            cleaned_text = text_response.strip()
             return json.loads(cleaned_text)
         except Exception as e:
             print(f"Failed with {model_name}: {e}")
